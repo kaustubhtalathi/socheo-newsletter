@@ -59,7 +59,7 @@ function App() {
   return (
     <div className="flex flex-col justify-between h-screen">
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex items-center flex-grow">
         <div className="w-3/4 md:w-1/2 lg:w-1/4 mt-0 mr-auto ml-auto">
           <form onSubmit={onSubmit}>
             <div className="form-control w-full grid grid-cols-1 mb-8">
