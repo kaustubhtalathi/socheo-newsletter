@@ -1,10 +1,14 @@
 import './App.css';
 
 import { useState } from 'react';
-import { toast } from "react-toastify";
 
 import Footer from "./components/Footer";
 import Navbar from './components/Navbar';
+
+import axios from 'axios';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -20,23 +24,20 @@ function App() {
 
     const formDataCopy = {
       ...formData,
-      timestamp: new Date().toGMTString(),
+      id: new Date().toGMTString(),
     };
 
-    const response = await fetch("https://lrd0dwpnkd.execute-api.us-east-1.amazonaws.com", {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(formDataCopy)
-    }).then(() => {
-      toast.success("Subscribed successfully!!!");
+    const response = await axios.post('https://lrd0dwpnkd.execute-api.us-east-1.amazonaws.com/emails', formDataCopy)
+    .then((res) => {
+      console.log(res);
+      toast.success("Subscribed successfully!");
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("Error while subscribing, please try again!");
     });
 
-    return response.json();
+    return response;
   }
 
   const onMutate = (e) => {
@@ -73,6 +74,8 @@ function App() {
         </div>
       </main>
       <Footer />
+
+      <ToastContainer />
     </div>
   );
 }
